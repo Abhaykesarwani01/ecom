@@ -8,7 +8,7 @@ const registerUser = async (req, res) => {
         const user = await userService.createUser(req.body);
         const jwt = jwtProvider.generateToken(user._id);
 
-        await cartService.createCart(user);
+        // await cartService.createCart(user);
 
         return res.status(200).json({ jwt, message: "User registered successfully" });
     } catch (error) {
@@ -19,7 +19,7 @@ const registerUser = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const user = await userService.getUserByEmail(email);
+        const user = await userService.getUserByEmail({email});
         if (!user) {
             return res.status(404).send({ message: "user not found with email :",email });
         }
