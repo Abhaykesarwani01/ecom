@@ -31,7 +31,8 @@ const createUser = async(userData)=>{
 
 const findUserById = async(userId)=>{
     try {
-        const user = await User.findById(userId).populate('address');
+        const user = await User.findById(userId)
+        // .populate('address');
         if(!user){
             throw new Error("User not found with id : ",userId);
         }
@@ -55,7 +56,7 @@ const getUserByEmail = async(email)=>{
     }
 }
 
-const getUserProfileFromToken = async(token)=>{
+const getUserProfileByToken = async(token)=>{
     try {
         const userId = jwtProvider.getUserIdFromToken(token);
         const user = await findUserById(userId);
@@ -82,6 +83,6 @@ module.exports = {
     createUser,
     findUserById,
     getUserByEmail,
-    getUserProfileFromToken,
+    getUserProfileByToken,
     getAllUsers
 }
