@@ -12,7 +12,7 @@ async function createCart(user) {
     }
 }
 
-async function findUserByCart(userId){
+async function findUserCart(userId){
     try {
         let cart = await Cart.findOne({user:userId});
 
@@ -30,9 +30,8 @@ async function findUserByCart(userId){
         }
 
         cart.totalPrice = totalPrice;
-        cart.totalDiscountedPrice = totalDiscountedPrice;
         cart.totalItem = totalItem;
-        cart.totalDiscounte = totalPrice - totalDiscountedPrice;
+        cart.Discounte = totalPrice - totalDiscountedPrice;
     
         return cart;
     } catch (error) {
@@ -72,6 +71,6 @@ async function addItemToCart(userId, req) {
 
 module.exports = {
     createCart,
-    findUserByCart,
+    findUserCart,
     addItemToCart
 };

@@ -1,7 +1,7 @@
 const userService = require('../services/user.service');
 const CartItem = require('../models/cartItem.model');
 
-async function UpdateCartItem(userId, cartItemId, cartItemData){ 
+async function updateCartItem(userId, cartItemId, cartItemData){ 
     try {
         const item = await findCartItemById(cartItemId);
         if(!item){
@@ -25,10 +25,11 @@ async function UpdateCartItem(userId, cartItemId, cartItemData){
         throw new Error("Error updating cart item: " + error.message);
     }
 }
-async function RemoveCartItem(userId, cartItemId){
+async function removeCartItem(userId, cartItemId){
     try {
         const cartItem = await findCartItemById(cartItemId);
         const user = await userService.findUserById(cartItem.userId);
+        
         if(user._id.toString()===cartItem.userId.toString()){
             await CartItem.findByIdAndDelete(cartItemId);
         }
@@ -51,7 +52,7 @@ async function findCartItemById(cartItemId){
 }
 
 module.exports = {
-    UpdateCartItem,
-    RemoveCartItem,
+    updateCartItem,
+    removeCartItem,
     findCartItemById
 }
