@@ -10,7 +10,7 @@ const authenticate = (req, res, next) => {
 
         const userId = jwtProvider.getUserIdFromToken(token);
         const user = userService.findUserById(userId);
-        rec.user = user; // Attach user to request object
+        req.user = user; // Attach user to request object
     } catch (error) {
         return res.status(401).send({ error: 'Invalid token' });
     }

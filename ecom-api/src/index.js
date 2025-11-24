@@ -13,6 +13,10 @@ app.get("/auth/signup", (req, res) => {
   res.send("Signup API endpoint is working!");
 });
 
+app.get("/auth/signin", (req, res) => {
+  res.send("Signin API endpoint is working!");
+});
+
 const authRouters = require('./routes/auth.route');
 app.use('/auth', authRouters);
 
