@@ -16,6 +16,17 @@ async function findUserCart(userId){
     try {
         let cart = await Cart.findOne({user:userId});
 
+        if (!cart) {
+            cart = await Cart.create({
+                user: userId,
+                cartItems: [],
+                totalPrice: 0,
+                totalItems: 0,
+                totalDiscountedPrice: 0,
+                discount: 0
+            });
+        }
+
         let cartItems = await CartItem.find({cart:cart._id}).populate('product');
         cart.cartItems = cartItems;
 
@@ -49,16 +60,17 @@ async function addItemToCart(userId, req) {
             product: product._id,
             userId
         });
-        if(isPresent){
+        if(!isPresent){
             const cartItem = new CartItem({
                 product: product._id,
                 cart: cart._id,
                 quantity:1,
+                userId,
                 size: req.size,
                 price: product.price,
-                size: req.size,
                 discountedPrice: product.discountedPrice,
             });
+            
             const createdCartItem = await cartItem.save();
             cart.cartItems.push(createdCartItem);
             await cart.save();

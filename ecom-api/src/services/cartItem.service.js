@@ -31,7 +31,7 @@ async function removeCartItem(userId, cartItemId){
         const user = await userService.findUserById(cartItem.userId);
         
         if(user._id.toString()===cartItem.userId.toString()){
-            await CartItem.findByIdAndDelete(cartItemId);
+            return await CartItem.findByIdAndDelete(cartItemId);
         }
     }catch (error) {
         throw new Error("you can't remove another user's cart item: " + error.message);
@@ -40,7 +40,7 @@ async function removeCartItem(userId, cartItemId){
 
 async function findCartItemById(cartItemId){
     try {
-        const cartItem =  await CartItem.findById(cartItemId);
+        const cartItem =  await CartItem.findById(cartItemId).populate('product');
         if(cartItem){
             return cartItem;
         }else{

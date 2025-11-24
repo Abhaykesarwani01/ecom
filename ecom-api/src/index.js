@@ -39,7 +39,7 @@ const cartRouters = require('./routes/cart.route');
 app.use('/api/cart', cartRouters);
 
 const cartItemRouters = require('./routes/cartItem.route');
-app.use('/api/cart-items', cartItemRouters);
+app.use('/api/cart-item', cartItemRouters);
 
 const reviewRouters = require('./routes/review.route');
 app.use('/api/reviews', reviewRouters);

@@ -37,8 +37,8 @@ async function createOrder(user, shipAddress){
         orderItems,
         totalPrice: cart.totalPrice,
         totalDiscountedPrice: cart.totalDiscountedPrice,
-        discounte:cart.discounte,
-        totalItem: cart.totalItem,
+        discount:cart.discount,
+        totalItems: cart.totalItems,
         shippingAddress: address,
     })
     const savedOrder = await createdOrder.save();

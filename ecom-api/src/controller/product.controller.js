@@ -30,7 +30,7 @@ const updateProduct = async (req, res) => {
 }
 
 const findProductById = async (req, res) => {
-    const productId = req.params.productId;
+    const productId = await req.params.id;
     try {
         const product = await productService.findProductById(productId);
         res.status(200).send(product);
