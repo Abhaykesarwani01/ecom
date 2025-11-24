@@ -30,8 +30,8 @@ async function findUserCart(userId){
         }
 
         cart.totalPrice = totalPrice;
-        cart.totalItem = totalItem;
-        cart.Discounte = totalPrice - totalDiscountedPrice;
+        cart.totalItems = totalItem;
+        cart.discount = totalPrice - totalDiscountedPrice;
     
         return cart;
     } catch (error) {
