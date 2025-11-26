@@ -22,6 +22,10 @@ import { Avatar, Button, Menu, MenuItem } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import { deepPurple } from '@mui/material/colors';
 import AuthModal from '../../auth/AuthModal';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUser } from '../../../state/Auth/Action';
+import { useLocation } from 'react-router-dom';
 
 
 function classNames(...classes) {
@@ -37,6 +41,9 @@ export default function Navigation() {
   const [anchorEl, setAnchorEl] = useState(null);
   const openUserMenu = Boolean(anchorEl);
   const jwt = localStorage.getItem("jwt");
+  const {auth} = useSelector((state) => state)
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleUserClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -58,6 +65,22 @@ export default function Navigation() {
     navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
   }
+  
+  useEffect(() => {
+    if (jwt){
+        dispatch(getUser(jwt))
+    }
+  },[jwt,auth.jwt]);
+
+  useEffect(() => {
+    if (auth.user){
+      handleClose();
+    }
+    if(location.pathname === '/login' || location.pathname === '/register'){
+      navigate(-1);
+    }
+
+  }, [auth.user]);
 
   return (
     <div className="bg-white mb-10">
@@ -345,7 +368,7 @@ export default function Navigation() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {/* auth.user ?  */false ?(
+                  {auth.user?.firtName ?(
                     <div>
                       <Avatar
                         className="text-white"
@@ -359,8 +382,8 @@ export default function Navigation() {
                           cursor: "pointer",
                         }}
                       >
-                        {/* {auth.user?.firstName[0].toUpperCase()} */}
-                        A
+                        {auth.user?.firstName[0].toUpperCase()}
+                        
                       </Avatar>
                       {/* <Button
                         id="basic-button"
