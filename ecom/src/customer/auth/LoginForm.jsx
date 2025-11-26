@@ -1,9 +1,22 @@
-import React from 'react'
+import React , { useEffect } from 'react'
 import { Grid, TextField, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '../../state/Auth/Action';
+import { useSelector } from 'react-redux';
 
 const LoginForm = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    // useEffect(() => {
+    //     const jwt = localStorage.getItem('jwt');
+    //     if (jwt){
+    //         // Optionally, you can dispatch an action to fetch user details here
+    //         navigate('/'); // Redirect to home if already logged in
+    //     }
+    // }, []);
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -11,6 +24,7 @@ const LoginForm = () => {
             email: data.get('email'),
             password: data.get('password'),
         };
+        dispatch(login(loginData));
         console.log('Login Data:', loginData);
     }
     return (

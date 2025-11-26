@@ -26,6 +26,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from '../../../state/Auth/Action';
 import { useLocation } from 'react-router-dom';
+import { logout } from '../../../state/Auth/Action';
 
 
 function classNames(...classes) {
@@ -61,6 +62,11 @@ export default function Navigation() {
     navigate('/cart');
   }
 
+  const handleLogout = () => {
+    dispatch(logout());
+    handleCloseUserMenu();
+  }
+
   const handleCategoryClick = (category, section, item, close) => {
     navigate(`/${category.id}/${section.id}/${item.id}`);
     close();
@@ -79,7 +85,6 @@ export default function Navigation() {
     if(location.pathname === '/login' || location.pathname === '/register'){
       navigate(-1);
     }
-
   }, [auth.user]);
 
   return (
@@ -368,7 +373,7 @@ export default function Navigation() {
 
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
-                  {auth.user?.firtName ?(
+                  {auth.user?.firstName ?(
                     <div>
                       <Avatar
                         className="text-white"
@@ -420,7 +425,7 @@ export default function Navigation() {
 
 
                         <MenuItem 
-                        // onClick={handleLogout}
+                        onClick={handleLogout}
                         >Logout</MenuItem>
                       </Menu>
                     </div>

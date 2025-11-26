@@ -23,7 +23,10 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from
 import ProductCard from '../../components/ProductCard/ProductCard'
 import { mens_kurta } from '../../../data/mens_kurta'
 import { filters, singleFilter } from '../../../data/filterData'
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
 
 
 const sortOptions = [
@@ -43,8 +46,21 @@ function classNames(...classes) {
 export default function ProductPage() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
 
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
+  const param = useParams();
+  const dispatch = useDispatch();
+
+  const decodeQueryString = decodeURIComponent(location.search);
+  const searchParamms = new URLSearchParams(decodeQueryString);
+  const colorValue = searchParamms.getAll('color');
+  const sizeValue = searchParamms.getAll('size');
+  const priceValue = searchParamms.getAll('price');
+  const Discount = searchParamms.getAll('Discount');
+  const sortValue = searchParamms.getAll('sort');
+  const pageNumber = searchParamms.getAll('page') || 1;
+  const stock = searchParamms.getAll('stock');
+
 
   const handleFilter=(value,seactionId)=>{
     const searchParamms = new URLSearchParams(location.search)
@@ -76,6 +92,35 @@ export default function ProductPage() {
     const query = searchParamms.toString();
     navigate ({search:`?${query}`})
   }
+
+  useEffect(()=>{
+    const[minPrice, maxPrice]=price===null?[0,10000]:priceValue.split('-').map(Number);
+
+    const data ={
+      category:param.LavelThree,
+      color:colorValue || [],
+      sizes:sizeValue || [],
+      minPrice,
+      maxPrice,
+      minDiscount:Discount ||0,
+      sort:sortValue || 'price_low',
+      pageNumber:pageNumber - 1,
+      pageSize:10,
+      stock:stock,
+    }
+    dispatch(findProducts(data))
+    
+
+  },[param.LavelThree,
+    colorValue,
+    sizeValue,
+    priceValue,
+    Discount,
+    sortValue,
+    pageNumber,
+    stock
+  ])
+
 
   return (
     <div className="bg-white">
