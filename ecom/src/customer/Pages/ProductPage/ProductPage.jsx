@@ -54,13 +54,13 @@ export default function ProductPage() {
 
   const decodeQueryString = decodeURIComponent(location.search);
   const searchParamms = new URLSearchParams(decodeQueryString);
-  const colorValue = searchParamms.getAll('color');
-  const sizeValue = searchParamms.getAll('size');
-  const priceValue = searchParamms.getAll('price');
-  const Discount = searchParamms.getAll('Discount');
-  const sortValue = searchParamms.getAll('sort');
-  const pageNumber = searchParamms.getAll('page') || 1;
-  const stock = searchParamms.getAll('stock');
+  const colorValue = searchParamms.get('color');
+  const sizeValue = searchParamms.get('size');
+  const priceValue = searchParamms.get('price');
+  const Discount = searchParamms.get('Discount');
+  const sortValue = searchParamms.get('sort');
+  const pageNumber = searchParamms.get('page') || 1;
+  const stock = searchParamms.get('stock');
 
 
   const handleFilter=(value,seactionId)=>{
@@ -100,7 +100,7 @@ export default function ProductPage() {
     const data ={
       category:param.LavelThree,
       color:colorValue || [],
-      sizes:sizeValue || [],
+      sizes:sizeValue | [],
       minPrice,
       maxPrice,
       minDiscount:Discount ||0,
@@ -110,7 +110,7 @@ export default function ProductPage() {
       stock:stock,
     }
     dispatch(findProducts(data))
-    
+    console.log(param);
 
   },[param.LavelThree,
     colorValue,

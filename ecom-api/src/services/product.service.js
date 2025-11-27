@@ -2,33 +2,33 @@ const Category = require('../models/category.model');
 const Product = require('../models/product.model');
 
 async function createProduct(reqData) {
-    let topLevel = await Category.findOne({name: reqData.topLevelCategory});
+    let topLevel = await Category.findOne({name: reqData.topLavelCategory});
     if (!topLevel) {
         topLevel = new Category({
-            name: reqData.topLevelCategory, 
+            name: reqData.topLavelCategory, 
             level: 1,
         });
-        await topLevel.save();
+        await topLavel.save();
     }
 
-    let secondLevel = await Category.findOne({name: reqData.secondLevelCategory, parentCategory: topLevel._id});
+    let secondLevel = await Category.findOne({name: reqData.secondLavelCategory, parentCategory: topLevel._id});
     if (!secondLevel) {
         secondLevel = new Category({
-            name: reqData.secondLevelCategory, 
+            name: reqData.secondLavelCategory, 
             level: 2,
             parentCategory: topLevel._id,
         });
-        await secondLevel.save();
+        await secondLavel.save();
     }   
 
-    let thirdLevel = await Category.findOne({name: reqData.thirdLevelCategory, parentCategory: secondLevel._id});
+    let thirdLevel = await Category.findOne({name: reqData.thirdLavelCategory, parentCategory: secondLevel._id});
     if (!thirdLevel) {
         thirdLevel = new Category({
-            name: reqData.thirdLevelCategory, 
+            name: reqData.thirdLavelCategory, 
             level: 3,
             parentCategory: secondLevel._id,
         });
-        await thirdLevel.save();
+        await thirdLavel.save();
     }
 
     const product = new Product({

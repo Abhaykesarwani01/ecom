@@ -1,5 +1,5 @@
 import axios from 'axios';
-import API_BASE_URL from '../../config/apiConfig';
+import { API_BASE_URL } from '../../config/apiConfig';
 import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE, LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT, GET_USER_FAILURE, GET_USER_REQUEST, GET_USER_SUCCESS } from './ActionType';
 
 const token = localStorage.getItem('jwt');
