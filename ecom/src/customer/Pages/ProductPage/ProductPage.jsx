@@ -26,6 +26,7 @@ import { filters, singleFilter } from '../../../data/filterData'
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { findProducts } from '../../../state/Product/Action';
 
 
 
@@ -94,7 +95,7 @@ export default function ProductPage() {
   }
 
   useEffect(()=>{
-    const[minPrice, maxPrice]=price===null?[0,10000]:priceValue.split('-').map(Number);
+    const[minPrice, maxPrice]=priceValue===null?[0,10000]:priceValue.split("-").map(Number);
 
     const data ={
       category:param.LavelThree,

@@ -20,11 +20,10 @@ export const findProducts = (reqData)=> async (dispatch) => {
     }
 }
 
-export const findProductById = (productId) => async (dispatch) => {
+export const findProductsById = (productId) => async (dispatch) => {
     dispatch({
         type: FIND_PRODUCT_BY_ID_REQUEST,
     });
-    const {productId} = reqData;
     try {
         const {data} = await api.get(`/api/products/id/${productId}`);
         dispatch({

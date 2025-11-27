@@ -11,7 +11,7 @@ import {
     UPDATE_CART_ITEM_REQUEST,
     UPDATE_CART_ITEM_SUCCESS,
     UPDATE_CART_ITEM_FAILURE,
-} from './ActionTypes';
+} from './ActionType';
 
 const initialState = {
     cart: null,
