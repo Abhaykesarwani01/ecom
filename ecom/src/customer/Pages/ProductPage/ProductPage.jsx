@@ -99,13 +99,13 @@ export default function ProductPage() {
 
     const data ={
       category:param.LavelThree,
-      color:colorValue || [],
-      sizes:sizeValue | [],
+      colors:colorValue || [],
+      sizes:sizeValue || [],
       minPrice,
       maxPrice,
       minDiscount:Discount ||0,
       sort:sortValue || 'price_low',
-      pageNumber:pageNumber - 1,
+      pageNumber: pageNumber || 1,
       pageSize:10,
       stock:stock,
     }
