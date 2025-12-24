@@ -27,7 +27,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { findProducts } from '../../../state/Product/Action';
-
+import { useSelector } from 'react-redux';
+import Pagination from '@mui/material/Pagination';
 
 
 const sortOptions = [
@@ -51,13 +52,14 @@ export default function ProductPage() {
   const navigate = useNavigate();
   const param = useParams();
   const dispatch = useDispatch();
+  const {product} = useSelector(store=>store);
 
   const decodeQueryString = decodeURIComponent(location.search);
   const searchParamms = new URLSearchParams(decodeQueryString);
   const colorValue = searchParamms.get('color');
   const sizeValue = searchParamms.get('size');
   const priceValue = searchParamms.get('price');
-  const discount = searchParamms.get('mindiscount');
+  const discount = searchParamms.get('discount');
   const sortValue = searchParamms.get('sort');
   const pageNumber = searchParamms.get('page') || 1;
   const stock = searchParamms.get('stock');
@@ -103,10 +105,10 @@ export default function ProductPage() {
       sizes:sizeValue || [],
       minPrice,
       maxPrice,
-      minDiscount: discount !== null ? discount : undefined,
+      minDiscount: discount || 0,
       sort:sortValue || 'price_low',
       pageNumber: pageNumber || 1,
-      pageSize:10,
+      pageSize:5,
       stock:stock,
     }
     dispatch(findProducts(data))
@@ -122,6 +124,12 @@ export default function ProductPage() {
     stock
   ])
 
+  const handelPaginationChange=(event,value)=>{
+    const searchParamms = new URLSearchParams(location.search)
+    searchParamms.set('page',value)
+    const query = searchParamms.toString();
+    navigate({search:`${query}`})
+  }
 
   return (
     <div className="bg-white">
@@ -440,10 +448,16 @@ export default function ProductPage() {
               <div className="lg:col-span-4">
                 <div className='flex flex-wrap justify-center bg-white py-5'>
 
-                  {mens_kurta.map((item) => <ProductCard product={item} />)}
+                  {product.products.content?.map((item) => <ProductCard product={item} />)}
                 </div>
               
               </div>
+            </div>
+          </section>
+
+          <section className="w-full px=[3.6rem]">
+            <div className="flex justify-center px-4 py-5">
+              <Pagination count={product.products.totalPages} color="secondary" onChange={handelPaginationChange}/>
             </div>
           </section>
         </main>

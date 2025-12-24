@@ -5,6 +5,11 @@ import ProductReviewCard from './ProductReviewCard'
 import { mens_kurta } from '../../../data/mens_kurta';
 import HomeSectionCard from '../HomeSectionCard/HomeSectionCard'
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { findProductsById } from '../../../state/Product/Action';
+import { useSelector } from 'react-redux';
 
 const product = {
   name: 'Basic Tee 6-Pack',
@@ -62,11 +67,18 @@ function classNames(...classes) {
 
 export default function ProductDetails() {
   const navigate = useNavigate();
+  const params = useParams();
+  const dispatch = useDispatch();
+  const {products} = useSelector(store=>store);
 
   const handleAddToCart = () => {
     navigate('/cart');
   }
 
+  useEffect(()=>{
+    dispatch(findProductsById(params.productId));
+
+  },[params.productId])
 
   return (
     <div className="bg-white lg:px-20">
@@ -107,8 +119,8 @@ export default function ProductDetails() {
             <div className=" flex flex-col items-center ">
                 <div className='overflow-hidden rounded-lg max-w-[30rem] max-h-[35rem]'>
                     <img
-                    alt={product.images[0].alt}
-                    src={product.images[0].src}
+                    alt=""
+                    src={products.product?.imageUrl}
                     className=" rounded-lg object-cover object-center"
                     />
                 </div>
@@ -127,19 +139,19 @@ export default function ProductDetails() {
             {/* Product info */}
             <div className='lg-col-span-1 max-t-auto max-w-2xl px-4 pb-16 sm:px-6 lg:max-w-7xl lg:px-8 lg:pb-24'>
             <div className="lg:col-span-2 ">
-                <h1 className="text-lg lg:text-xl font-semibold text-gray-900">Product Brand</h1>
+                <h1 className="text-lg lg:text-xl font-semibold text-gray-900">{products.product?.brand}</h1>
                 <h1 className='text-lg lg:text-xl text-gray-900 opacity-60 pt-1'>
-                    Product discription
+                    {products.product?.title}
                 </h1>
             </div>
 
             {/* Options */}
             <div className="mt-4 lg:row-span-3 lg:mt-0">
-                <h2 className="sr-only">Product information</h2>
+                <h2 className="sr-only">{products.product?.description}</h2>
                 <div className=' flex items-center space-x-5 text-lg lg:text-xl text-gray-900 mt-6'>
-                    <p className='font-semibold'>Rs.100</p>
-                    <p className='line-through text-gray-500'>Rs.1000</p>
-                    <p className='font-semibold text-green-500'>90% off</p>
+                    <p className='font-semibold'>Rs.{products.product?.discountedPrice}</p>
+                    <p className='line-through text-gray-500'>Rs.{products.product?.price}</p>
+                    <p className='font-semibold text-green-500'>{products.product?.discountPercent}% off</p>
                 </div>
 
                 {/* Reviews */}
