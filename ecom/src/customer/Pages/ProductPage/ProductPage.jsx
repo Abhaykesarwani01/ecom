@@ -57,7 +57,7 @@ export default function ProductPage() {
   const colorValue = searchParamms.get('color');
   const sizeValue = searchParamms.get('size');
   const priceValue = searchParamms.get('price');
-  const Discount = searchParamms.get('Discount');
+  const discount = searchParamms.get('mindiscount');
   const sortValue = searchParamms.get('sort');
   const pageNumber = searchParamms.get('page') || 1;
   const stock = searchParamms.get('stock');
@@ -103,7 +103,7 @@ export default function ProductPage() {
       sizes:sizeValue || [],
       minPrice,
       maxPrice,
-      minDiscount:Discount ||0,
+      minDiscount: discount !== null ? discount : undefined,
       sort:sortValue || 'price_low',
       pageNumber: pageNumber || 1,
       pageSize:10,
@@ -116,7 +116,7 @@ export default function ProductPage() {
     colorValue,
     sizeValue,
     priceValue,
-    Discount,
+    discount,
     sortValue,
     pageNumber,
     stock

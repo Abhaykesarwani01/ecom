@@ -36,7 +36,7 @@ async function createProduct(reqData) {
         color: reqData.color,
         description: reqData.description,
         discountedPrice: reqData.discountedPrice,
-        discoruntPercent: reqData.discoruntPercent,
+        discountPercent: reqData.discountPercent,
         imageUrl: reqData.imageUrl,
         brand: reqData.brand,
         price: reqData.price,
@@ -96,8 +96,10 @@ async function getAllProducts(reqQuery) {
         query = query.where('discountedPrice').gte(minPrice).lte(maxPrice);
     }
     
-    if (minDiscount) {
-        query = query.where('discoruntPercent').gt(minDiscount);
+    if (minDiscount !== undefined && minDiscount !== null) {
+        query = query
+        .where('discountPercent')
+        .gte(Number(minDiscount));
     }
 
     if (stock) {
